@@ -3,8 +3,19 @@ import { createSelector } from 'reselect';
 
 // local imports
 
+const COLLECTION_ID_MAP = {
+  hats: 1,
+  sneakers: 2,
+  jackets: 3,
+  womens: 4,
+  mens: 5,
+};
+
 const selectShop = state => state.shop;
 
-const selectCollections = createSelector([selectShop], shop => shop.collections);
+export const selectCollections = createSelector([selectShop], shop => shop.collections);
 
-export default selectCollections;
+export const selectCollection = connectionURLParams =>
+  createSelector([selectCollections], collections =>
+    collections.find(collection => collection.id === COLLECTION_ID_MAP[connectionURLParams])
+  );
